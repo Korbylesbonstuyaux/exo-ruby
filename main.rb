@@ -175,6 +175,79 @@ def correctAlternativeParking(day, num)
   end
 end
 
+#Fct if a number is first or note
+def isFirst(nb)
+  first = true
+  limit = Math.sqrt(nb)
+
+  if (nb >= 2)
+    i = 2
+    while ((i <= limit) && first)
+      if (nb % i == 0)
+        first = false
+      end
+      i += 1
+    end
+  else first = false
+  end
+
+  return first
+end
+
+def displayNFirst(nb)
+end
+
+def displayNFirstDESC(nb)
+end
+
+#Fct displayNfirsts
+def displayNfirsts(n)
+  if ((n.is_a? Integer) && n > 0)
+    i = 0
+    puts "N premiers entiers strictement positifs :"
+    loop do
+      i += 1
+      puts "#{i}"
+      break if i >= n
+    end
+
+    puts "N premiers entiers strictement positifs décroissant :"
+    loop do
+      puts "#{i}"
+      i -= 1
+      break if i <= 0
+    end
+
+    puts "N premiers carrés parfaits :"
+    loop do
+      i += 1
+      puts "#{i*i}"
+      break if i >= n
+    end
+
+    puts "N premiers entiers strictement positifs impairs :"
+    j = 0
+    while (i > 0)
+      j += 1
+      if (j % 2 == 1)
+        i -= 1
+        puts "#{j}"
+      end
+    end
+
+    puts "Premiers entiers strictement positifs impairs (inf. ou égaux à N) :"
+    j = 1
+    while (j <= n)
+      if (j % 2 == 1)
+        puts "#{j}"
+      end
+      j += 1
+    end
+
+  end
+end
+
+
 puts "Liste des programmes à tester :"
 puts "1: Calcule la surface d'un triangle."
 puts "2: Prix TTC en fonction du prix HT, la TVA en % et la quantité souhaitée."
@@ -190,7 +263,13 @@ puts "11: Indique si une année est bissextile ou pas."
 puts "12: Indique si une date est valide."
 puts "13: Le stationnement alternatif - Indique si vous êtes bien stationné
 (du 1 au 15 du mois, on se gare du côté des maisons ayant un numéro impair, et le reste du mois, du côté pair)"
-puts "Entrez s'il vous plaît le numéro associé au programme souhaité."
+puts "14: Lit un naturel N et affiche :
+- les N premiers entiers strictement positifs ;
+- les N premiers entiers strictement positifs en ordre décroissant ;
+- les N premiers carrés parfaits ;
+- les N premiers entiers strictement positifs impairs ;
+- les entiers strictement positifs impairs qui sont inférieurs ou égaux à N."
+puts ">>>> Entrez s'il vous plaît le numéro associé au programme souhaité."
 choice = gets.chomp.to_i
 puts "========================================================================="
 
@@ -380,6 +459,9 @@ when 13
   end
   correctAlternativeParking(day, num)
 
+when 14
+  puts isFirst(11)
+
 else puts "Ce programme n'existe pas dans la liste."
 
 end
@@ -406,53 +488,6 @@ def sum(nb)
 end
 
 # ==== partie "Les boucles avec Ruby"
-
-#Fct displayNfirsts
-def displayNfirsts(n)
-  if ((n.is_a? Integer) && n > 0)
-    i = 0
-    puts "N premiers entiers strictement positifs :"
-    loop do
-      i += 1
-      puts "#{i}"
-      break if i >= n
-    end
-
-    puts "N premiers entiers strictement positifs décroissant :"
-    loop do
-      puts "#{i}"
-      i -= 1
-      break if i <= 0
-    end
-
-    puts "N premiers carrés parfaits :"
-    loop do
-      i += 1
-      puts "#{i*i}"
-      break if i >= n
-    end
-
-    puts "N premiers entiers strictement positifs impairs :"
-    j = 0
-    while (i > 0)
-      j += 1
-      if (j % 2 == 1)
-        i -= 1
-        puts "#{j}"
-      end
-    end
-
-    puts "Premiers entiers strictement positifs impairs (inf. ou égaux à N) :"
-    j = 1
-    while (j <= n)
-      if (j % 2 == 1)
-        puts "#{j}"
-      end
-      j += 1
-    end
-
-  end
-end
 
 #Fct max of numbers
 def maxNumbers(array)
