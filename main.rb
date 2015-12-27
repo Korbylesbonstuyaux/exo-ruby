@@ -1,4 +1,5 @@
 # EXERCICES OF RUBY
+# To use with jruby : load 'C:\Users\PAD\Documents\Mes Gits\exo-ruby\main.rb'
 
 #Fct Surface of a triangle
 def surface(base, height)
@@ -332,6 +333,173 @@ def suites(terme)
   end
 end
 
+#Fct factorial
+def factorial(n)
+  if ((n.is_a? Integer) && (n >= 0))
+    total = 1;
+    for i in 0..n
+      if(i > 0)
+        total *=  i
+      end
+    end
+    puts "#{n}! = #{total}"
+  else puts "N n'est pas entier ou n'est pas supérieur ou égal 0."
+  end
+end
+
+#Fct Sum of digits of number
+def sum(nb)
+  nb = nb.gsub(/[^\d]/, '').to_i(10)
+  if(nb.is_a? Integer)
+      som = 0
+      while nb != 0
+        som += nb % 10
+        nb = nb / 10
+      end
+      puts "Somme des chiffres du nombre est de #{som}."
+  end
+end
+
+#Fct game of the fourchette
+def fourchetteGame()
+  n = rand(1..100)
+  essai = 0
+  puts "Trouvez le nombre quelconque compris entre 1 et 100 inclus, tiré au sort par l’ordinateur !"
+  loop do
+    puts "Saississez votre nombre, s'il vous plaît :"
+    val = gets.chomp.to_i
+    essai += 1
+
+    if (val < n)
+      puts "Le nombre donné est trop petit."
+    end
+    if (val > n)
+      puts "Le nombre donné est trop grand."
+    end
+    break if ((val == n) || (essai > 8))
+   end
+
+
+   if(essai <= 8)
+     puts "C'est gagné ! Le nombre était bien #{n} (trouvé en #{essai} essais)"
+   else puts "Dommage vous avez perdu !"
+   end
+end
+
+#Fct summe of integers of an array
+def sumArray(array)
+  sum = 0
+  array.each do
+    |n|
+    sum += n.to_i
+  end
+  puts "Somme : #{sum}"
+end
+
+#Fct maxmium and minium on an array
+def maxAndMinArray(array)
+  max = 0;
+  min = 0;
+  array.each do
+    |n|
+    if n > max
+      max = n
+    end
+
+    if ((n < min) || (min == 0))
+      min = n
+    end
+  end
+  puts "Le maximum est #{max} et le minimum est #{min}."
+end
+
+#Fct numbers in an array
+def arrayLength(array)
+  puts "Nombre d'éléments : #{array.length}"
+end
+
+#Fct max ecart on array
+def maxGapArray(array)
+  before_last = 0
+  index = 0
+  gap = 0
+
+  array.each do
+    |n|
+
+    if (index != 0)
+      if (gap < (before_last - n).abs)
+        gap = (before_last - n).abs
+      end
+    end
+
+    before_last = n
+    index += 1
+  end
+
+  puts "L'écart le plus grand : #{gap}."
+end
+
+#Fct is an ordonned array
+def isOrdonnedArray(array)
+  i = 0
+  tmp = 0
+  ordonned = true
+
+  while ((i < array.length) && ordonned)
+    if (i != 0)
+      if (tmp < array[i])
+        tmp = array[i]
+      else ordonned = false
+      end
+    else tmp = array[i]
+    end
+    i += 1
+  end
+
+  if (ordonned)
+    puts "Le tableau est bien ordonné."
+  else puts "Le tableau N'est PAS bien ordonné."
+  end
+end
+
+#Fct reverse an array
+def reverseArray(array)
+  tmp_array = Array.new(array.length)
+  index = array.length - 1
+
+  for i in 0...array.length
+    tmp_array[index] = array[i]
+    index -= 1
+    # puts "#{i} = #{array[i]}"
+  end
+
+  return tmp_array
+end
+
+#Fct occurence of digits
+def occurence(nb)
+  nb = nb.to_i
+  array = Array.new()
+
+  if(nb.is_a? Integer)
+      while nb != 0
+        if (array[nb % 10].nil?)
+          array[nb % 10] = 1
+        else array[nb % 10] += 1
+        end
+        nb = nb / 10
+      end
+  end
+
+  # display
+  for i in 0...26
+    if (!array[i].nil?)
+      puts "Le chiffre #{i} apparait #{array[i]} fois"
+    end
+  end
+end
+
 puts "Liste des programmes à tester :"
 puts "1: Calcule la surface d'un triangle."
 puts "2: Prix TTC en fonction du prix HT, la TVA en % et la quantité souhaitée."
@@ -354,6 +522,16 @@ puts "14: Lit un naturel N et affiche :
 puts "15: Affiche le plus grand nombre d'une série."
 puts "16: Affiche les multiples de 3 d'une série."
 puts "17: Affiche les N premiers termes de la suite:  \"Le Pas Croissant\", \"la Boiteuse\" et \"Fibonacci\"."
+puts "18: Factorielle d'un nombre N."
+puts "19: Somme des chiffres en utilisant les fonctions sur le type Integer."
+puts "20: Jeu de la fourchette."
+puts "21: Somme des entiers d'un tableau."
+puts "22: Affiche le nombre maximum ainsi que le minimum compris dans un tableau."
+puts "23: Affiche le nombre d'éléments contenues dans un tableau."
+puts "24: Affiche le plus grand écart entre deux entiers consécutifs dans un tableau."
+puts "25: Affiche vrai si un tableau d'entiers est ordonné (strictement) croissant sur les valeurs, faux sinon."
+puts "26: Permute les valeurs d'un tableau. Le premier élément avec le dernier, le deuxième élément avec l’avant-dernier et ainsi de suite."
+puts "27: Affiche pour chacun des chiffres le nombre de fois qu'il apparait dans un nombre."
 puts ">>>> Entrez s'il vous plaît le numéro associé au programme souhaité."
 choice = gets.chomp.to_i
 puts "========================================================================="
@@ -419,7 +597,7 @@ when 4
 
 when 5
   puts "Programme choisi : Somme des chiffres."
-  puts "Veuillez entrer des chiffres (les autres caractères seront considérés comme des 0)."
+  print "Veuillez entrer des chiffres (les autres caractères seront considérés comme des 0): "
   string = gets.chomp.gsub(/[^\d]/, '')
   sumWithFctChar(string)
 
@@ -605,6 +783,149 @@ when 17
   end
   suites(n)
 
+when 18
+  puts "Programme choisi : Factorielle d'un nombre N."
+  n = 0
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if (n < 0)
+      puts "Ce nombre est invalide."
+    end
+    break if (n >= 0)
+  end
+  factorial(n)
+
+when 19
+  puts "Programme choisi : Somme des chiffres en utilisant les fonctions sur le type Integer."
+  print "Veuillez entrer des chiffres (les autres caractères seront considérés comme des 0): "
+  n = gets.chomp
+  sum(n)
+
+when 20
+  puts "Programme choisi : Jeu de la fourchette."
+  fourchetteGame()
+
+when 21
+  puts "Programme choisi : Somme des entiers d'un tableau."
+  puts "Vous devez entrer chaque valeur de la série. Et tapez 0 pour arrêter la série!"
+  n = 0
+  array = Array.new
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if (n != 0)
+      array.push(n)
+    end
+    break if (n == 0)
+  end
+  sumArray(array)
+
+when 22
+  puts "Programme choisi : Affiche le nombre maximum ainsi que le minimum compris dans un tableau."
+  puts "Vous devez entrer chaque valeur de la série (2 nombres au minimum). Et tapez 0 pour arrêter la série!"
+  n = 0
+  min = 0
+  array = Array.new
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if (n != 0)
+      array.push(n)
+      min += 1
+    else if (min < 2)
+          puts "Il vous faut un minimum de 2 valeurs pour stopper."
+         end
+    end
+    break if ((n == 0) && (min >= 2))
+  end
+  maxAndMinArray(array)
+
+when 23
+  puts "Programme choisi : Affiche le nombre d'éléments contenues dans un tableau."
+  puts "Vous devez entrer chaque valeur du tableau. Et tapez 0 pour arrêter la série!"
+  n = 0
+  array = Array.new
+  loop do
+    print "Saisissez vos caractères : "
+    n = gets.chomp
+    if (n != "0")
+      array.push(n)
+    end
+    break if (n == "0")
+  end
+  arrayLength(array)
+
+when 24
+  puts "Programme choisi : Affiche le plus grand écart entre deux entiers consécutifs dans un tableau."
+  puts "Vous devez entrer chaque valeur de la série (2 nombres au minimum). Et tapez 0 pour arrêter la série!"
+  n = 0
+  min = 0
+  array = Array.new
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if (n != 0)
+      array.push(n)
+      min += 1
+    else if (min < 2)
+          puts "Il vous faut un minimum de 2 valeurs pour stopper."
+         end
+    end
+    break if ((n == 0) && (min >= 2))
+  end
+  maxGapArray(array)
+
+when 25
+  puts "Programme choisi : Affiche vrai si un tableau d'entiers est ordonné (strictement) croissant sur les valeurs, faux sinon."
+  puts "Vous devez entrer chaque valeur de la série (2 nombres au minimum). Et tapez 0 pour arrêter la série!"
+  n = 0
+  min = 0
+  array = Array.new
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if (n != 0)
+      array.push(n)
+      min += 1
+    else if (min < 2)
+          puts "Il vous faut un minimum de 2 valeurs pour stopper."
+         end
+    end
+    break if ((n == 0) && (min >= 2))
+  end
+  isOrdonnedArray(array)
+
+when 26
+  puts "Programme choisi : Permute les valeurs d'un tableau. Le premier élément avec le dernier, le deuxième élément avec l’avant-dernier et ainsi de suite."
+  puts "Vous devez entrer chaque valeur du tableau. Et tapez 0 pour arrêter la série!"
+  n = 0
+  min = 0
+  array = Array.new
+  loop do
+    print "Saisissez vos caractères : "
+    n = gets.chomp
+    if (n != "0")
+      array.push(n)
+      min += 1
+    else if (min < 2)
+          puts "Il vous faut un minimum de 2 valeurs pour stopper."
+         end
+    end
+    break if ((n == "0") && (min >= 2))
+  end
+  print "Tableau avant l'inversion : "
+  print "#{array} \n"
+  array = reverseArray(array)
+  print "Tableau après l'inversion : "
+  print "#{array} \n"
+
+when 27
+  puts "Programme choisi : Affiche pour chacun des chiffres le nombre de fois qu'il apparait dans un nombre."
+  print "Veuillez entrer un nombre : "
+  nb = gets.chomp.to_i
+  occurence(nb)
+
 else puts "Ce programme n'existe pas dans la liste."
 
 end
@@ -616,215 +937,6 @@ def swap(a, b)
   a = b
   b = c
 end
-
-#Fct Sum of digits of number
-def sum(nb)
-  nb = nb.gsub(/[^\d]/, '').to_i(10)
-  if(nb.is_a? Integer)
-      som = 0
-      while nb != 0
-        som += nb % 10
-        nb = nb / 10
-      end
-      puts "Somme des chiffres du nombre : #{som}"
-  end
-end
-
-# ==== partie "Les boucles avec Ruby"
-
-#Fct factorielle
-def factorielle(n)
-  if ((n.is_a? Integer) && (n >= 0))
-    total = 1;
-    for i in 2..n
-           total *=  i
-    end
-    puts "#{n}! = #{total}"
-  else "N n'est pas entier ou n n'est pas supérieur ou égal 0"
-  end
-end
-
-def gameFourchette()
-  n = rand(1..100)
-  essai = 0
-  puts "Jeu de la fourchette : trouvez le nombre quelconque compris entre 1 et 100 inclus, tiré au sort par l’ordinateur !"
-  loop do
-    puts "Saississez votre nombre, s'il vous plaît :"
-    val = gets.chomp.to_i
-    essai += 1
-
-    if (val < n)
-      puts "Le nombre donné trop petit"
-    end
-    if (val > n)
-      puts "Le nombre donné trop grand"
-    end
-    break if ((val == n) || (essai > 8))
-   end
-
-
-   if(essai <= 8)
-     puts "C'est gagné ! Le nombre était bien #{n} en #{essai} essais"
-   else puts "Dommage vous avez perdu !"
-   end
-end
-
-# displayNfirsts(4)
-
-# array = [2, 1, 4, 8, 7, 15, 12, 17, 9, 6]
-# maxNumbers(array)
-
-# array = [2, 1, 4, 8, 7, 15, 12, 17, 9, 6]
-# multipleOf3(array)
-
-# suites(8)
-
-# factorielle(5)
-
-# puts "Saississez votre nombre, s'il vous plaît :"
-# val = gets.chomp
-# sum(val)
-
-# gameFourchette()
-
-
-# ==== partie "Les structures de données"
-
-#Fct summe of integers of an array
-def sumArray(array)
-  sum = 0
-  array.each do
-    |n|
-    sum += n.to_i
-  end
-  puts "Somme : #{sum}"
-end
-
-#Fct maxmium and minium on an array
-def maxAndMinArray(array)
-  max = 0;
-  min = 0;
-  array.each do
-    |n|
-    if n > max
-      max = n
-    end
-
-    if ((n < min) || (min == 0))
-      min = n
-    end
-  end
-  puts "MAX : #{max} et MIN : #{min}"
-end
-
-#Fct numbers in an array
-def arrayLength(array)
-  puts "Nombre d'éléments : #{array.length}"
-end
-
-#Fct max ecart on array
-def maxGapArray(array)
-  before_last = 0
-  index = 0
-  gap = 0
-
-  array.each do
-    |n|
-
-    if (index != 0)
-      if (gap < (before_last - n).abs)
-        gap = (before_last - n).abs
-      end
-    end
-
-    before_last = n
-    index += 1
-  end
-
-  puts "L'écart le plus grand : #{gap}"
-end
-
-#Fct is an ordonned array
-def isOrdonnedArray(array)
-  i = 0
-  tmp = 0
-  ordonned = true
-
-  while ((i < array.length) && ordonned)
-    if (i != 0)
-      if (tmp < array[i])
-        tmp = array[i]
-      else ordonned = false
-      end
-    else tmp = array[i]
-    end
-    i += 1
-  end
-
-  if (ordonned)
-    puts "Le tableau est bien ordonné"
-  else puts "Le tableau N'est PAS bien ordonné"
-  end
-end
-
-#Fct reverse an array
-def reverseArray(array)
-  tmp_array = Array.new(array.length)
-  index = array.length - 1
-
-  for i in 0...array.length
-    tmp_array[index] = array[i]
-    index -= 1
-    # puts "#{i} = #{array[i]}"
-  end
-
-  array = tmp_array
-  print array
-end
-
-#Fct occurence of digits
-def occurence(nb)
-  nb = nb.to_i
-  array = Array.new()
-
-  if(nb.is_a? Integer)
-      while nb != 0
-        if (array[nb % 10].nil?)
-          array[nb % 10] = 1
-        else array[nb % 10] += 1
-        end
-        nb = nb / 10
-      end
-  end
-
-  # display
-  for i in 0...26
-    if (!array[i].nil?)
-      puts "Le chiffre #{i} apparait #{array[i]} fois"
-    end
-  end
-end
-
-# array = [2, 1, 4, 8, 7]
-# sumArray(array)
-
-# array = [2, 1, 4, 8, -7, 15, -12, 17, 9, 6]
-# maxAndMinArray(array)
-
-# array = [1, 2, 3, 4, 5, 6]
-# arrayLength(array)
-
-# array = [1, 2, -1, 4, 6, 6]
-# maxGapArray(array)
-
-# array = [-1, 1, 8, 6, 7]
-# isOrdonnedArray(array)
-
-# array = [1, 7, 3, 8, 5]
-# reverseArray(array)
-
-# occurence(55486854352)
-
 
 # ==== partie "Blocs et tri"
 
