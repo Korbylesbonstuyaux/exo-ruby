@@ -178,75 +178,159 @@ end
 #Fct if a number is first or note
 def isFirst(nb)
   first = true
-  limit = Math.sqrt(nb)
 
-  if (nb >= 2)
-    i = 2
-    while ((i <= limit) && first)
-      if (nb % i == 0)
-        first = false
+  if((nb.is_a? Integer) && (nb >= 0))
+    limit = Math.sqrt(nb)
+
+    if (nb > 2)
+      i = 2
+      while ((i <= limit) && first)
+        if (nb % i == 0)
+          first = false
+        end
+        i += 1
       end
-      i += 1
+    else first = false
     end
+
   else first = false
   end
 
   return first
 end
 
-def displayNFirst(nb)
-end
-
-def displayNFirstDESC(nb)
-end
-
-#Fct displayNfirsts
-def displayNfirsts(n)
-  if ((n.is_a? Integer) && n > 0)
-    i = 0
-    puts "N premiers entiers strictement positifs :"
-    loop do
-      i += 1
-      puts "#{i}"
-      break if i >= n
-    end
-
-    puts "N premiers entiers strictement positifs décroissant :"
-    loop do
-      puts "#{i}"
-      i -= 1
-      break if i <= 0
-    end
-
-    puts "N premiers carrés parfaits :"
-    loop do
-      i += 1
-      puts "#{i*i}"
-      break if i >= n
-    end
-
-    puts "N premiers entiers strictement positifs impairs :"
-    j = 0
-    while (i > 0)
-      j += 1
-      if (j % 2 == 1)
-        i -= 1
-        puts "#{j}"
+def displayNFirsts(nb)
+  if((nb.is_a? Integer) && (nb > 0))
+    array = Array.new
+    n = 0
+    puts "Voici les #{nb} premiers entiers: "
+    while (array.length < nb)
+      if isFirst(n)
+        array.push(n)
       end
+      n += 1
     end
 
-    puts "Premiers entiers strictement positifs impairs (inf. ou égaux à N) :"
-    j = 1
-    while (j <= n)
-      if (j % 2 == 1)
-        puts "#{j}"
-      end
-      j += 1
+    array.each do
+      |x|
+      print "#{x} "
     end
-
+    puts "\n"
+  else puts "Le paramètre n'est pas un entier positif."
   end
 end
 
+def displayNFirstsDESC(nb)
+  if((nb.is_a? Integer) && (nb > 0))
+    array = Array.new
+    n = 0
+    puts "Voici les #{nb} premiers entiers (en ordre décroissant): "
+    while (array.length < nb)
+      if isFirst(n)
+        array.push(n)
+      end
+      n += 1
+    end
+
+    array.reverse!
+    array.each do
+      |x|
+      print "#{x} "
+    end
+    puts "\n"
+  else puts "Le paramètre n'est pas un entier positif."
+  end
+end
+
+def displayNSquareFirsts(nb)
+  if((nb.is_a? Integer) && (nb > 0))
+    array = Array.new
+    n = 0
+    puts "Voici les #{nb} premiers entiers carrés parfaits: "
+    while (array.length < nb)
+      if isFirst(n)
+        array.push(n)
+      end
+      n += 1
+    end
+
+    array.each do
+      |x|
+      print "#{x*x} "
+    end
+    puts "\n"
+  else puts "Le paramètre n'est pas un entier positif."
+  end
+end
+
+#Fct max of an array of numbers
+def maxNumber(array)
+  max = 0
+  array.each do
+    |n|
+    max = n if (n > max)
+  end
+  puts "Le nombre ayant la plus grande valeur est #{max}."
+end
+
+#Fct multiple of 3
+def multipleOf3(array)
+  array.each do
+    |n|
+    puts "#{n} est un multiple de 3" if (n % 3 == 0)
+  end
+end
+
+#Fct fait k=les suites
+def suites(terme)
+  if((terme.is_a? Integer) && (terme >= 0))
+
+    puts "- Suite \"Le pas croissant\""
+    sum = 1;
+
+    for i in 0..terme
+      sum += i
+      print "#{sum} "
+    end
+
+    puts "\n"
+    puts "- Suite \"La boiteuse\": "
+
+    sum = 0;
+    for i in 0..terme
+      if((i % 2 == 0) && (i != 0))
+        sum += 2
+      else sum += 1
+      end
+      print "#{sum} "
+    end
+
+    puts "\n"
+
+    puts "- Suite \"Fibonacci\":"
+
+    tmp = 0;
+    first = 0;
+    second = 1;
+
+    for i in 0..terme
+      if (i > 1)
+        tmp = first + second;
+        first = second;
+        second = tmp;
+        print "#{second} "
+      else  if(i == 0)
+              print "#{first} "
+            else print "#{second} "
+            end
+      end
+    end
+
+    puts "\n"
+
+  else puts "Le terme n'est pas entier positif."
+  end
+end
 
 puts "Liste des programmes à tester :"
 puts "1: Calcule la surface d'un triangle."
@@ -266,9 +350,10 @@ puts "13: Le stationnement alternatif - Indique si vous êtes bien stationné
 puts "14: Lit un naturel N et affiche :
 - les N premiers entiers strictement positifs ;
 - les N premiers entiers strictement positifs en ordre décroissant ;
-- les N premiers carrés parfaits ;
-- les N premiers entiers strictement positifs impairs ;
-- les entiers strictement positifs impairs qui sont inférieurs ou égaux à N."
+- les N premiers carrés parfaits ;"
+puts "15: Affiche le plus grand nombre d'une série."
+puts "16: Affiche les multiples de 3 d'une série."
+puts "17: Affiche les N premiers termes de la suite:  \"Le Pas Croissant\", \"la Boiteuse\" et \"Fibonacci\"."
 puts ">>>> Entrez s'il vous plaît le numéro associé au programme souhaité."
 choice = gets.chomp.to_i
 puts "========================================================================="
@@ -343,7 +428,7 @@ when 6
   nombres = Array.new
   nb = 0
   loop do
-    print "Choississez le nombre #{nb+1} : "
+    print "Choisissez le nombre #{nb+1} : "
     val = gets.chomp.to_f
     nombres.push(val)
     nb += 1
@@ -356,7 +441,7 @@ when 7
   nombres = Array.new
   nb = 0
   loop do
-    print "Choississez le nombre #{nb+1} : "
+    print "Choisissez le nombre #{nb+1} : "
     val = gets.chomp.to_f
     nombres.push(val)
     nb += 1
@@ -375,7 +460,7 @@ when 9
   nombres = Array.new
   nb = 0
   loop do
-    print "Choississez le nombre #{nb+1} : "
+    print "Choisissez le nombre #{nb+1} : "
     val = gets.chomp.to_f
     nombres.push(val)
     nb += 1
@@ -395,7 +480,7 @@ when 10
   puts "Le chiffre doit être compris entre 1 et 12 (1 pour Janvier et 12 pour Décembre)."
   month = 0
   loop do
-    print "Saississez votre mois : "
+    print "Saisissez votre mois : "
     month = gets.chomp.to_i
     if (month < 1 || month > 12)
       puts "Ce nombre est invalide."
@@ -415,7 +500,7 @@ when 12
   puts "Le jour doit être compris entre 1 et 31."
   day = 0
   loop do
-    print "Saississez votre jour : "
+    print "Saisissez votre jour : "
     day = gets.chomp.to_i
     if (day < 1 || day > 31)
       puts "Ce nombre est invalide."
@@ -425,14 +510,14 @@ when 12
   puts "Le mois doit être compris entre 1 et 12."
   month = 0
   loop do
-    print "Saississez votre mois : "
+    print "Saisissez votre mois : "
     month = gets.chomp.to_i
     if (month < 1 || month > 12)
       puts "Ce nombre est invalide."
     end
     break if (month >= 1 && month <= 12)
   end
-  print "Saississez votre année : "
+  print "Saisissez votre année : "
   year = gets.chomp.to_i
   isValidDate(day, month, year)
 
@@ -441,7 +526,7 @@ when 13
   puts "Le jour doit être compris entre 1 et 31."
   day = 0
   loop do
-    print "Saississez votre jour : "
+    print "Saisissez votre jour : "
     day = gets.chomp.to_i
     if (day < 1 || day > 31)
       puts "Ce nombre est invalide."
@@ -450,7 +535,7 @@ when 13
   end
   num = 0
   loop do
-    print "Saississez votre numéro de rue : "
+    print "Saisissez votre numéro de rue : "
     num = gets.chomp.to_i
     if (num <= 0 )
       puts "Ce nombre est invalide."
@@ -460,7 +545,65 @@ when 13
   correctAlternativeParking(day, num)
 
 when 14
-  puts isFirst(11)
+  puts "Programme choisi : Lit un naturel N et affiche les N premiers entiers selon des critères."
+  n = 0
+  loop do
+    print "Saisissez votre N (doit être supérieur à 0): "
+    n = gets.chomp.to_i
+    if (n <= 0)
+      puts "Ce nombre est invalide."
+    end
+    break if (n > 0)
+  end
+  displayNFirsts(n)
+  displayNFirstsDESC(n)
+  displayNSquareFirsts(n)
+
+when 15
+  puts "Programme choisi : Affiche le plus grand nombre d'une série."
+  puts "Chaque nombre doit être compris entre 0 et 20. Entrez un nombre négatif pour arrêter la série"
+  n = 0
+  array = Array.new
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if ((n >= 0) && (n <= 20))
+      array.push(n)
+    else if (n > 20)
+          puts "Ce nombre est invalide."
+         end
+    end
+    break if (n < 0)
+  end
+  maxNumber(array)
+
+when 16
+  puts "Programme choisi : Affiche les multiples de 3 d'une série."
+  puts "Entrez 0 pour arrêter la série"
+  n = 0
+  array = Array.new
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if (n != 0)
+      array.push(n)
+    end
+    break if (n == 0)
+  end
+  multipleOf3(array)
+
+when 17
+  puts "Programme choisi : Affiche les N premiers termes de la suite:  \"Le Pas Croissant\", \"la Boiteuse\" et \"Fibonacci\"."
+  n = 0
+  loop do
+    print "Saisissez un nombre : "
+    n = gets.chomp.to_i
+    if (n < 0)
+      puts "Ce nombre est invalide."
+    end
+    break if (n >= 0)
+  end
+  suites(n)
 
 else puts "Ce programme n'existe pas dans la liste."
 
@@ -488,78 +631,6 @@ def sum(nb)
 end
 
 # ==== partie "Les boucles avec Ruby"
-
-#Fct max of numbers
-def maxNumbers(array)
-  max = 0
-  array.each do
-    |n|
-    max = n if (n > max)
-  end
-  puts "Le max est : #{max}"
-end
-
-#Fct multiple of 3
-def multipleOf3(array)
-  array.each do
-    |n|
-    puts "#{n} est un multiple de 3" if (n % 3 == 0)
-  end
-end
-
-#Fct fait k=les suites
-def suites(limit)
-  puts "1/ Le pas croissant"
-  som = 0;
-  for i in 1..limit
-    if(i == 1)
-      som += 1
-    else som += (i - 1)
-    end
-    print "#{som} "
-  end
-
-  puts ""
-  puts "2/ La boiteuse"
-
-  som = 0;
-  for i in 1..limit
-    if(i == 1)
-      som += 1
-    else if (i % 2 == 0)
-          som += 1
-        else som += 2
-        end
-    end
-    print "#{som} "
-  end
-
-  puts ""
-  puts "3/ Fibonacci"
-
-  tmp = 0;
-  first = 0;
-  second = 1;
-
-  if (limit < 1)
-    print "#{first} "
-  end
-
-  if (limit < 2)
-    print "#{first} #{second} "
-  end
-
-  if (limit >= 2)
-    print "#{first} #{second} "
-    for i in 2..limit
-      tmp = first + second;
-      first = second;
-      second = tmp;
-      print "#{tmp} "
-    end
-  end
-
-end
 
 #Fct factorielle
 def factorielle(n)
